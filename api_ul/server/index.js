@@ -8,7 +8,7 @@ const fileRoutes = require("./routes/fileRoutes");
 const mlRoutes = require("./routes/mlRoutes");
 const dotenv = require("dotenv");
 const { errorHandler } = require("./middlewares/errorHandler");
-
+const authRoute = require("./routes/userRoutes");
 const app = express();
 
 // Security middleware
@@ -40,7 +40,10 @@ app.use("/api/ml", mlRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
-app.listen(process.env.PORT, ()=>{
+
+app.use("/api/auth",authRoute);
+
+app.listen(5000, ()=>{
   console.log(`Server running`)
 });
 

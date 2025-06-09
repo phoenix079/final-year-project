@@ -23,6 +23,7 @@ function App() {
     }
   }, []);
 
+  //Authentication handlers
   const handleLogin = (userData) => {
     setUser(userData);
   };
@@ -35,6 +36,7 @@ function App() {
     setUser(null);
   };
 
+  //Fileupload handlers
   const handleUpload = (uploadedFiles) => {
     setFiles([...files, ...uploadedFiles]);
     console.log("Files ready for upload:", uploadedFiles);
