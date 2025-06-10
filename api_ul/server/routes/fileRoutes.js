@@ -1,23 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const { handleFileUpload } = require("../middlewares/upload");
-const {
-  uploadFiles,
-  getFiles,
-  getFile,
-  deleteFile,
-} = require("../controllers/fileController");
+const multer = require("multer");
+// const { handleFileUpload } = require("../middlewares/upload");
+const { uploadFile, getAllFiles } = require("../controllers/fileController");
+const {storage} = require("../lib/cloudinary");
+const { protect } = require("../middlewares/authMiddleware");
 
 // Upload files
-router.post("/upload", handleFileUpload("files"), uploadFiles);
+const upload = multer({ storage });
+router.post("/upload", upload.single("file"), uploadFile);//middleware protect
 
 // Get all files
-router.get("/", getFiles);
+router.get("/files", getAllFiles);
 
-// Get single file
-router.get("/:id", getFile);
+// // Get single file
+// router.get("/:id", getFile);
 
-// Delete file
-router.delete("/:id", deleteFile);
+// // Delete file
+// router.delete("/:id", deleteFile);
 
 module.exports = router;
