@@ -24,7 +24,7 @@ const Login = ({ onLogin }) => {
       onLogin(user);
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message);
     }
   };
 

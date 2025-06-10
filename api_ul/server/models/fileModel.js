@@ -34,6 +34,11 @@ const FileSchema = new mongoose.Schema({
     enum: ["uploaded", "processing", "processed", "failed"],
     default: "uploaded",
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("File", FileSchema);

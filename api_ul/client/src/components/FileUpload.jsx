@@ -1,4 +1,5 @@
 // src/components/FileUpload.jsx
+import axios from "axios";
 import React, { useCallback, useState } from "react";
 import FilePreview from "./FilePreview";
 import FileUploadProgress from "./FileUploadProgress";
@@ -48,35 +49,82 @@ const FileUpload = ({ onUpload }) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const simulateUpload = () => {
+
+  //newly added axios
+  const uploadFiles = async () => {
     if (selectedFiles.length === 0) return;
-
     setIsUploading(true);
-    const newProgress = {};
 
-    selectedFiles.forEach((file, index) => {
-      newProgress[index] = 0;
-      // Simulate upload progress
-      const interval = setInterval(() => {
-        setUploadProgress((prev) => {
-          const newValue = prev[index] + Math.random() * 10;
-          if (newValue >= 100) {
-            clearInterval(interval);
-            return { ...prev, [index]: 100 };
-          }
-          return { ...prev, [index]: newValue };
-        });
-      }, 200);
-    });
+    const file = selectedFiles[0]; // Take the first file
+    const formData = new FormData();
+    formData.append("file", file); // Single file with key "file"
 
-    // Simulate completion after 3 seconds
-    setTimeout(() => {
-      onUpload(selectedFiles);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${
+              localStorage.getItem("user")
+                ? JSON.parse(localStorage.getItem("user")).token
+                : ""
+            }`,
+          },
+          onUploadProgress: (progressEvent) => {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress((prev) => ({ ...prev, [0]: progress }));
+          },
+        }
+      );
+
+      onUpload(response.data.file); // Update parent state with uploaded file
       setSelectedFiles([]);
       setUploadProgress({});
+    } catch (error) {
+      console.error("Upload error:", error.response?.data || error.message);
+      alert(
+        `Failed to upload file: ${
+          error.response?.data?.message || error.message
+        }`
+      );
+    } finally {
       setIsUploading(false);
-    }, 3000);
+    }
   };
+
+  // const simulateUpload = () => {
+  //   if (selectedFiles.length === 0) return;
+
+  //   setIsUploading(true);
+  //   const newProgress = {};
+
+  //   selectedFiles.forEach((file, index) => {
+  //     newProgress[index] = 0;
+  //     // Simulate upload progress
+  //     const interval = setInterval(() => {
+  //       setUploadProgress((prev) => {
+  //         const newValue = prev[index] + Math.random() * 10;
+  //         if (newValue >= 100) {
+  //           clearInterval(interval);
+  //           return { ...prev, [index]: 100 };
+  //         }
+  //         return { ...prev, [index]: newValue };
+  //       });
+  //     }, 200);
+  //   });
+
+  //   // Simulate completion after 3 seconds
+  //   setTimeout(() => {
+  //     onUpload(selectedFiles);
+  //     setSelectedFiles([]);
+  //     setUploadProgress({});
+  //     setIsUploading(false);
+  //   }, 3000);
+  // };
 
   return (
     <div
@@ -110,7 +158,7 @@ const FileUpload = ({ onUpload }) => {
           </div>
           <h3>Drag & Drop files here</h3>
           <p>or click to browse</p>
-          <p className="file-types">Supports: PDF, JPG, PNG, DOCX (Max 10MB)</p>
+          <p className="file-types">Supports: JPEG, JPG, PNG,(Max 10MB)</p>
         </label>
       </div>
 
@@ -142,7 +190,7 @@ const FileUpload = ({ onUpload }) => {
           </div>
 
           <button
-            onClick={simulateUpload}
+            onClick={uploadFiles}
             disabled={isUploading}
             className="upload-button"
           >

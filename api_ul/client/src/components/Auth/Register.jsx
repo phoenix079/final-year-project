@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {register} from "../../services/authService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Auth.css";
 
 const Register = ({ onRegister }) => {
   const [userData, setUserData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -37,6 +39,7 @@ const Register = ({ onRegister }) => {
 
   return (
     <div className="auth-container">
+      <ToastContainer/>
       <h2>Register</h2>
       {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
@@ -44,8 +47,8 @@ const Register = ({ onRegister }) => {
           <label>Name</label>
           <input
             type="text"
-            name="name"
-            value={userData.name}
+            name="fullName"
+            value={userData.fullName}
             onChange={handleChange}
             required
           />
