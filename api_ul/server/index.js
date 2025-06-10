@@ -7,9 +7,16 @@ const path = require("path");
 const fileRoutes = require("./routes/fileRoutes");
 const mlRoutes = require("./routes/mlRoutes");
 const dotenv = require("dotenv");
-const { errorHandler } = require("./middlewares/errorHandler");
-const authRoute = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 const app = express();
+const { connectDB } = require("./lib/db");
+
+// Load environment variables from .env file
+dotenv.config();
+
+const PORT= process.env.PORT || 5000;
+
+// Connect to the database
 
 // Security middleware
 app.use(helmet());
@@ -32,19 +39,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
-app.use("/api/files", fileRoutes);
-app.use("/api/ml", mlRoutes);
+// app.use("/api/files", fileRoutes);
+// app.use("/api/ml", mlRoutes);
 
 // Error handling middleware
-app.use(errorHandler);
+// app.use(errorHandler);
 
-app.use("/api/auth",authRoute);
+//AuthRoutes
+app.use("/api/auth",authRoutes);
 
-app.listen(5000, ()=>{
+// File upload routes
+app.use("/api", fileRoutes);
+
+app.listen(PORT, ()=>{
   console.log(`Server running`)
+  connectDB();
 });
 
 module.exports = app;

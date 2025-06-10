@@ -1,5 +1,4 @@
-const File = require("../models/file");
-const ErrorResponse  = require("../middlewares/errorHandler");
+const File = require("../models/fileModel");
 const { PythonShell } = require("python-shell");
 const path = require("path");
 
