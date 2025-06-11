@@ -54,6 +54,9 @@ app.use("/api/auth",authRoutes);
 // File upload routes
 app.use("/api", fileRoutes);
 
+// Machine learning routes
+app.use("/api", mlRoutes);
+
 app.listen(PORT, ()=>{
   console.log(`Server running`)
   connectDB();
