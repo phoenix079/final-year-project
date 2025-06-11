@@ -8,7 +8,7 @@ const { protect } = require("../middlewares/authMiddleware");
 
 // Upload files
 const upload = multer({ storage });
-router.post("/upload", protect, upload.single("file"), uploadFile);//middleware protect
+router.post("/upload", protect ,upload.single("file"), uploadFile);//middleware protect
 
 // Get all files
 router.get("/files", protect, getAllFiles);

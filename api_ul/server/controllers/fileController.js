@@ -2,31 +2,26 @@ const File = require("../models/fileModel");
 
 const uploadFile = async (req, res) => {
   try {
-    console.log("Uploaded file object:", req.file); // debug
+    console.log("Uploaded file object:", req.file); // Debug
+
     if (!req.user) {
       return res.status(401).json({ message: "User not authenticated" });
     }
+
     if (!req.file || !req.file.path) {
-      return res.status(400).json({ message: "No file uploaded." });
+      return res.status(400).json({ message: "No file uploaded or Cloudinary URL missing." });
     }
 
-    const {
-      originalname,
-      mimetype,
-      size,
-      filename,     // cloudinary-generated filename
-      path,
-      url,          // cloudinary URL (actual path)
-    } = req.file;
+    const { originalname, mimetype, size, filename, path } = req.file;
 
     const file = new File({
       originalname,
       mimetype,
       size,
-      filename: filename || req.file.originalname, // fallback to original name
-      path: url || req.file.url, //(Was initially req.file.path before) use Cloudinary URL
+      filename,
+      path, // ✅ Cloudinary URL
       status: "uploaded",
-      user: req.user._id, //from protect middleware
+      user: req.user._id,
     });
 
     await file.save();

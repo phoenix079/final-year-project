@@ -11,6 +11,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Navbar from "./components/Auth/Navbar";
 import { getCurrentUser } from "./services/authService";
+import axios from "axios";
 
 function App() {
   const [user, setUser] = useState(null);

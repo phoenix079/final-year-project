@@ -81,7 +81,7 @@ const FileUpload = ({ onUpload }) => {
         }
       );
 
-      onUpload(response.data.file); // Update parent state with uploaded file
+      onUpload([response.data.file]); // Update parent state with uploaded file
       setSelectedFiles([]);
       setUploadProgress({});
     } catch (error) {
