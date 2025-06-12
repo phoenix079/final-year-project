@@ -54,11 +54,10 @@ app.use("/api/auth",authRoutes);
 // File upload routes
 app.use("/api", fileRoutes);
 
-app.listen(PORT, ()=>{
-  console.log(`Server running`)
-  connectDB();
-});
+// Machine learning routes
+app.use("/api", mlRoutes);
 
+//Error Handler
 const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
   res.status(err.statusCode || 500).json({
@@ -67,5 +66,12 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 app.use(errorHandler);
+
+app.listen(PORT, ()=>{
+  console.log(`Server running on port ${PORT}`);
+  connectDB();
+});
+
+
 
 module.exports = app;

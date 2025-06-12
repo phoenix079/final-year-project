@@ -1,77 +1,48 @@
+const { exec } = require("child_process");
 const File = require("../models/fileModel");
-const { PythonShell } = require("python-shell");
-const path = require("path");
 
-// @desc    Process file with ML model
-// @route   POST /api/ml/process/:id
-// @access  Public
-exports.processFileWithML = async (req, res, next) => {
+const predictML = async (req, res) => {
   try {
-    const file = await File.findById(req.params.id);
+    const { fileId } = req.params;
 
-    if (!file) {
-      return next(
-        new ErrorResponse(`File not found with id of ${req.params.id}`, 404)
-      );
-    }
-    if (file.status === "processing") {
-      return next(new ErrorResponse("File is already being processed", 400));
+    const file = await File.findById(fileId);
+    if (!file || !file.path) {
+      return res.status(404).json({ message: "File not found or missing URL" });
     }
 
-    // Update file status to processing
-    file.status = "processing";
-    await file.save();
+    const imageUrl = file.path;
 
-    // Path to your Python ML script
-    const pythonScriptPath = path.join(
-      __dirname,
-      "../ml_scripts/process_file.py"
-    );
-
-    // Options for PythonShell
-    const options = {
-      mode: "text",
-      pythonOptions: ["-u"], // unbuffered stdout
-      scriptPath: path.dirname(pythonScriptPath),
-      args: [file.path], // Pass file path as argument to Python script
-    };
-
-    // Run Python script
-    PythonShell.run(
-      path.basename(pythonScriptPath),
-      options,
-      async (err, results) => {
-        if (err) {
-          console.error("PythonShell error:", err);
-          file.status = "failed";
-          await file.save();
-          return next(
-            new ErrorResponse("Error processing file with ML model", 500)
-          );
+    // Call Python script with Cloudinary image URL
+    exec(
+      `python ml_model/inference.py "${imageUrl}"`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error("Prediction error:", stderr || error.message);
+          return res
+            .status(500)
+            .json({ message: "Prediction failed", error: stderr });
         }
 
-        try {
-          // Parse the results from Python script
-          const mlResults = JSON.parse(results[0]);
+        const [label, confidence] = stdout.trim().split("|");
 
-          // Update file with ML results
-          file.mlResults = mlResults;
-          file.status = "processed";
-          await file.save();
+        // Optionally update the file document
+        file.status = "processed";
+        file.mlResults = {
+          predictedClass: label,
+          confidence: parseFloat(confidence),
+        };
+        file.save();
 
-          res.status(200).json({
-            success: true,
-            data: file,
-          });
-        } catch (parseErr) {
-          console.error("Error parsing ML results:", parseErr);
-          file.status = "failed";
-          await file.save();
-          next(new ErrorResponse("Error processing ML results", 500));
-        }
+        res.status(200).json({
+          message: "Prediction successful",
+          result: { predictedClass: label, confidence: parseFloat(confidence) },
+        });
       }
     );
   } catch (err) {
-    next(err);
+    console.error("Server error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+module.exports = { predictML };

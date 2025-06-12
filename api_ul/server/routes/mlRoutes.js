@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { processFileWithML } = require("../controllers/mlController");
+const { protect } = require("../middlewares/authMiddleware");
+const { predictML } = require("../controllers/mlController");
 
-// Process file with ML model
-router.post("/process/:id", processFileWithML);
+router.get("/predict/:fileId", protect, predictML);
 
 module.exports = router;

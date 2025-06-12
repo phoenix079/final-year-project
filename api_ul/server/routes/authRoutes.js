@@ -1,7 +1,7 @@
 //DONE DON'T TOUCH THIS FILE!!!!! je touch krbe tar duto baba. Later make logout route
 
 const express = require("express");
-const { registerUser, loginUser, getMe } = require("../controllers/authController");
+const { registerUser, loginUser, getMe, deleteUser } = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
 // const { body, validationResult } = require("express-validator");
 
@@ -15,6 +15,7 @@ const logoutUser = (req, res) => {
   res.json({ message: "Logged out successfully" });
 };
 router.post("/logout", logoutUser);
+router.delete("/delete", protect, deleteUser);
 
 // newly added sanitization(for injection attacks)
 // router.post(

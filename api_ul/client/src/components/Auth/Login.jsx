@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {login} from "../../services/authService";
+import { login } from "../../services/authService";
 import "./Auth.css";
 
 const Login = ({ onLogin }) => {
@@ -24,7 +24,7 @@ const Login = ({ onLogin }) => {
       onLogin(user);
       navigate("/");
     } catch (err) {
-      toast.error(err.message);
+      setError(err.message); //initially was toast.error
     }
   };
 
@@ -35,21 +35,25 @@ const Login = ({ onLogin }) => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email</label>
+          <span className="input-icon email-icon"></span>
           <input
             type="email"
             name="email"
             value={credentials.email}
             onChange={handleChange}
+            placeholder="Type your email"
             required
           />
         </div>
         <div className="form-group">
           <label>Password</label>
+          <span className="input-icon lock-icon"></span>
           <input
             type="password"
             name="password"
             value={credentials.password}
             onChange={handleChange}
+            placeholder="Type your password"
             required
           />
         </div>

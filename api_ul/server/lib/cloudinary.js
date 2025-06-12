@@ -15,7 +15,10 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'uploads',
     allowed_formats: ['jpg', 'jpeg', 'png'],
-    public_id: (req, file) => file.originalname.split('.')[0],
+    public_id: (req, file) => {
+      const name = file.originalname.split(".")[0];
+      return `${name}_${Date.now()}`;
+    },
   },
 });
 
