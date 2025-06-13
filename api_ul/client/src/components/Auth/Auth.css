@@ -214,7 +214,7 @@ body::before {
 .navbar-brand {
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: var(--text-color);
   text-decoration: none;
@@ -222,8 +222,8 @@ body::before {
 }
 
 .navbar-brand img {
-  height: 30px;
-  margin-right: 12px;
+  height: 60px;
+  margin-right: 8px;
 }
 
 .navbar-auth-buttons {

@@ -97,7 +97,7 @@ const Navbar = ({ user, onLogout, onToggleProfile }) => {
         {" "}
         {/* New container for brand and dropdown */}
         <Link to="/" className="navbar-brand">
-          <img src="/assets/images/background.jpg" alt="Logo" />
+          <img src="/assets/images/mainlogo.png" alt="Logo" />
           PoppyPure
         </Link>
         {/* NEW DROPDOWN TOGGLE BUTTON */}
