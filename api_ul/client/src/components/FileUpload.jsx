@@ -131,8 +131,41 @@ const FileUpload = ({ onUpload }) => {
       );
 
       console.log("Upload response:", response.data);
-      onUpload([response.data.file]); // Update parent state with uploaded file
-      setAdulterationLevel(response.data.adulterationLevel || 0); // Assume backend returns
+
+      const uploadedFile = response.data.file;
+      onUpload([uploadedFile]);
+      try {
+        const predictionRes = await axios.get(
+          `http://localhost:5000/api/predict/${uploadedFile._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                localStorage.getItem("user")
+                  ? JSON.parse(localStorage.getItem("user")).token
+                  : ""
+              }`,
+            },
+          }
+        );
+
+        const { predictedClass } = predictionRes.data.result;
+
+        const classMap = {
+          0: 0,
+          1: 10,
+          2: 20,
+          3: 30,
+          4: 40,
+          5: 50,
+          6: 100,
+        };
+
+        const mappedClass = classMap[predictedClass] ?? "Unknown";
+        setAdulterationLevel(mappedClass);
+      } catch (predictionError) {
+        console.error("Prediction error:", predictionError);
+        setError("Prediction failed. Please try again.");
+      }
       setIsUploading(false);
       // setSelectedFiles([]);
       // setUploadProgress({});

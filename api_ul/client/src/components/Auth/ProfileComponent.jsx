@@ -90,9 +90,10 @@ const ProfileComponent = ({
   };
 
   return (
-    <>
-      {isOpen && currentUser && (
-        <div className="profile-tab">
+    // Conditionally render the profile tab and apply the 'is-open' class
+    <div className={`profile-tab ${isOpen ? "is-open" : ""}`}>
+      {currentUser && (
+        <>
           <button
             className="close-tab-btn"
             onClick={onToggleProfile}
@@ -135,13 +136,16 @@ const ProfileComponent = ({
             </div>
           )}
           <div className="profile-actions">
-            <button className="delete-account-button" onClick={handleDeleteAccount}>
+            <button
+              className="delete-account-button"
+              onClick={handleDeleteAccount}
+            >
               Delete Account
             </button>
           </div>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

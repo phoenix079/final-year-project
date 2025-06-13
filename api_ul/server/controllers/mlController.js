@@ -1,6 +1,7 @@
 const { exec } = require("child_process");
 const File = require("../models/fileModel");
 
+// Existing controller
 const predictML = async (req, res) => {
   try {
     const { fileId } = req.params;
@@ -12,7 +13,6 @@ const predictML = async (req, res) => {
 
     const imageUrl = file.path;
 
-    // Call Python script with Cloudinary image URL
     exec(
       `python ml_model/inference.py "${imageUrl}"`,
       (error, stdout, stderr) => {
@@ -25,7 +25,6 @@ const predictML = async (req, res) => {
 
         const [label, confidence] = stdout.trim().split("|");
 
-        // Optionally update the file document
         file.status = "processed";
         file.mlResults = {
           predictedClass: label,
