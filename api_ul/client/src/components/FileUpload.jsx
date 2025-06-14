@@ -37,8 +37,6 @@ const FileUpload = ({ onUpload }) => {
     }
   }, [adulterationLevel]);
 
-
-
   const handleDrag = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();

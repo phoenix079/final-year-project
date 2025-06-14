@@ -1,8 +1,7 @@
 const File = require("../models/fileModel");
-const cloudinary = require("../lib/cloudinary").v2; 
+const cloudinary = require("../lib/cloudinary").v2;
 const fs = require("fs").promises;
 const path = require("path");
-
 
 const uploadFile = async (req, res) => {
   try {
@@ -19,7 +18,8 @@ const uploadFile = async (req, res) => {
     }
 
     const { originalname, mimetype, size, path: cloudinaryUrl } = req.file;
-    const publicId = req.file.filename || req.file.path.split("/").pop().split(".")[0];
+    const publicId =
+      req.file.filename || req.file.path.split("/").pop().split(".")[0];
 
     //new added base64
     let base64 = null;
@@ -29,7 +29,7 @@ const uploadFile = async (req, res) => {
         // If Cloudinary URL, fetch the image
         const response = await fetch(filePath);
         const arrayBuffer = await response.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer); 
+        const buffer = Buffer.from(arrayBuffer);
         base64 = buffer.toString("base64");
         base64 = `data:${mimetype};base64,${base64}`;
       } else {
@@ -38,7 +38,9 @@ const uploadFile = async (req, res) => {
         base64 = buffer.toString("base64");
         base64 = `data:${mimetype};base64,${base64}`;
         // Clean up local file if using temp storage
-        await fs.unlink(filePath).catch((err) => console.error("Failed to delete temp file:", err));
+        await fs
+          .unlink(filePath)
+          .catch((err) => console.error("Failed to delete temp file:", err));
       }
     }
 
@@ -56,9 +58,10 @@ const uploadFile = async (req, res) => {
 
     res.status(201).json({
       message: "File uploaded successfully.",
-      file: {               //CHANGED SECTION
+      file: {
+        //CHANGED SECTION
         _id: file._id,
-        originalname: file.originalname, 
+        originalname: file.originalname,
         mimetype: file.mimetype,
         size: file.size,
         path: file.path,
@@ -75,14 +78,15 @@ const uploadFile = async (req, res) => {
   }
 };
 
-
-
 // @route GET /api/files
 // @desc Get all uploaded files (for user/admin)
 // @access Private (or public if needed)
 const getAllFiles = async (req, res) => {
-  try {           //WHOLE TRY BLOCK IS CHANGED
-    const files = await File.find({ user: req.user._id }).sort({ createdAt: -1 });
+  try {
+    //WHOLE TRY BLOCK IS CHANGED
+    const files = await File.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     const filesWithBase64 = await Promise.all(
       files.map(async (file) => {
         let base64 = null;
@@ -90,11 +94,14 @@ const getAllFiles = async (req, res) => {
           try {
             const response = await fetch(file.path);
             const arrayBuffer = await response.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer); 
+            const buffer = Buffer.from(arrayBuffer);
             base64 = buffer.toString("base64");
             base64 = `data:${file.mimetype};base64,${base64}`;
           } catch (error) {
-            console.error(`Failed to fetch base64 for file ${file._id}:`, error);
+            console.error(
+              `Failed to fetch base64 for file ${file._id}:`,
+              error
+            );
           }
         }
         return {
@@ -109,13 +116,11 @@ const getAllFiles = async (req, res) => {
       })
     );
     res.status(200).json(filesWithBase64);
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error fetching files:", error);
     res.status(500).json({ message: "Failed to fetch files." });
   }
 };
-
 
 // @desc Get single file         NEWLY ADDED
 // @route GET /api/files/:id
@@ -127,13 +132,15 @@ const getFile = async (req, res) => {
       return res.status(404).json({ message: "File not found" });
     }
     if (file.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Not authorized to access this file" });
+      return res
+        .status(403)
+        .json({ message: "Not authorized to access this file" });
     }
     let base64 = null;
     if (file.mimetype.startsWith("image/")) {
       const response = await fetch(file.path);
       const arrayBuffer = await response.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer); 
+      const buffer = Buffer.from(arrayBuffer);
       base64 = buffer.toString("base64");
       base64 = `data:${file.mimetype};base64,${base64}`;
     }
@@ -152,8 +159,6 @@ const getFile = async (req, res) => {
   }
 };
 
-
-
 // @desc Delete file
 // @route DELETE /api/files/:id
 // @access Private
@@ -166,8 +171,15 @@ const deleteFile = async (req, res) => {
       return res.status(404).json({ message: "File not found" });
     }
     if (file.user.toString() !== req.user._id.toString()) {
-      console.log("Unauthorized attempt by user:", req.user._id, "for file:", req.params.id); // Debug
-      return res.status(403).json({ message: "Not authorized to delete this file" });
+      console.log(
+        "Unauthorized attempt by user:",
+        req.user._id,
+        "for file:",
+        req.params.id
+      ); // Debug
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this file" });
     }
     // Delete from Cloudinary
     if (file.filename) {
@@ -189,7 +201,6 @@ const deleteFile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 module.exports = {
   uploadFile,

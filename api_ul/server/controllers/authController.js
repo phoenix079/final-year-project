@@ -94,7 +94,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 // @desc Get logged-in user info
 // @route GET /api/auth/me
 // @access Private
@@ -142,8 +141,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
-
 //new logout FOR WHAT IDK
 // const logoutUser = async (req, res) => {
 //   try {
@@ -158,8 +155,6 @@ const deleteUser = async (req, res) => {
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
-
-
 
 module.exports = {
   registerUser,

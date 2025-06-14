@@ -17,7 +17,6 @@ const Navbar = ({ user, onLogout, onToggleProfile }) => {
   const mobileMenuRef = useRef(null); // ADD THIS: Ref for the mobile menu links container
   const hamburgerButtonRef = useRef(null); // ADD THIS: Ref for the hamburger icon button itself
 
-
   // Combined handleClickOutside for both features dropdown and mobile menu (KHUB KHANKI JINIS)
   useEffect(() => {
     const handleClickOutside = (event) => {

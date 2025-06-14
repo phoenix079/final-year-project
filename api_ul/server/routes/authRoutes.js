@@ -1,7 +1,12 @@
 //DONE DON'T TOUCH THIS FILE!!!!! je touch krbe tar duto baba. Later make logout route
 
 const express = require("express");
-const { registerUser, loginUser, getMe, deleteUser } = require("../controllers/authController");
+const {
+  registerUser,
+  loginUser,
+  getMe,
+  deleteUser,
+} = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
 // const { body, validationResult } = require("express-validator");
 

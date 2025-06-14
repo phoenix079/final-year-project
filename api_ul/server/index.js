@@ -14,11 +14,9 @@ const { connectDB } = require("./lib/db");
 // Load environment variables from .env file
 dotenv.config();
 
-// No need for PORT constant or app.listen when using Netlify Functions.
-// const PORT= process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 // Connect to the database
-connectDB();
 
 // Security middleware
 app.use(helmet());
@@ -51,7 +49,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(errorHandler);
 
 //AuthRoutes
-app.use("/api/auth",authRoutes);
+app.use("/api/auth", authRoutes);
 
 // File upload routes
 app.use("/api", fileRoutes);
@@ -69,11 +67,9 @@ const errorHandler = (err, req, res, next) => {
 };
 app.use(errorHandler);
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDB();
 });
-
-
 
 module.exports = app;

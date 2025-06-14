@@ -14,9 +14,12 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Navbar from "./components/Auth/Navbar";
 import ProfileComponent from "./components/Auth/ProfileComponent";
-import { getCurrentUser, fetchUserFiles, deleteAccount } from "./services/authService";
+import {
+  getCurrentUser,
+  fetchUserFiles,
+  deleteAccount,
+} from "./services/authService";
 import { ThemeContext } from "./ThemeContext";
-
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,12 +73,11 @@ function App() {
     navigate("/"); // Redirect to home after registration
   };
 
-
-
   // Handle tab closure vs reload ***************(NOT YET WORKING)
   useEffect(() => {
     // Generate a unique tab ID and store in sessionStorage
-    const tabId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+    const tabId =
+      Date.now().toString() + Math.random().toString(36).substr(2, 9);
     sessionStorage.setItem("tabId", tabId);
     sessionStorage.setItem("isActive", "true");
 
@@ -115,8 +117,6 @@ function App() {
       window.removeEventListener("load", handleLoad);
     };
   }, []);
-
-
 
   //NEW LOGOUT HOOK
   const handleLogout = async () => {
@@ -307,6 +307,6 @@ function App() {
       </main>
     </div>
   );
-};
+}
 
 export default App;

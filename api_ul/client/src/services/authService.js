@@ -1,11 +1,10 @@
 import axios from "axios";
 
-const API_URL = "/api/auth";
-const FILES_API_URL = "/api/files";
+const API_URL = "http://localhost:5000/api/auth";
+const FILES_API_URL = "http://localhost:5000/api/files";
 
 // Set up axios defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";
-
 
 //axios for login
 export const login = async (credentials) => {
@@ -30,7 +29,6 @@ export const register = async (userData) => {
   }
 };
 
-
 //axios for fetching current user
 export const getCurrentUser = () => {
   try {
@@ -49,7 +47,6 @@ export const getCurrentUser = () => {
     return null;
   }
 };
-
 
 //delete account feature axios
 export const deleteAccount = async () => {
@@ -70,7 +67,6 @@ export const deleteAccount = async () => {
   }
 };
 
-
 //fetch files in profile axios
 export const fetchUserFiles = async () => {
   try {
@@ -86,7 +82,6 @@ export const fetchUserFiles = async () => {
     throw new Error(error.response?.data?.message || "Failed to fetch files");
   }
 };
-
 
 // Optional: Add request interceptor to include auth token if available
 axios.interceptors.request.use(

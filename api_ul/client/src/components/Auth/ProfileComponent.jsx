@@ -12,23 +12,21 @@ const ProfileComponent = ({
   const [error, setError] = useState(null);
 
   // SVG for user logo
-//   const userLogoSvg = (
-//     <svg
-//       width="36"
-//       height="36"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-//       <circle cx="12" cy="7" r="4"></circle>
-//     </svg>
-//   );
-
-
+  //   const userLogoSvg = (
+  //     <svg
+  //       width="36"
+  //       height="36"
+  //       viewBox="0 0 24 24"
+  //       fill="none"
+  //       stroke="currentColor"
+  //       strokeWidth="2"
+  //       strokeLinecap="round"
+  //       strokeLinejoin="round"
+  //     >
+  //       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+  //       <circle cx="12" cy="7" r="4"></circle>
+  //     </svg>
+  //   );
 
   // SVG for close tab icon
   const closeSvg = (
@@ -67,14 +65,14 @@ const ProfileComponent = ({
   );
 
   //delete images from profile
-//   const handleDeleteImage = async (fileId) => {
-//     try {
-//       await onDeleteImage(fileId);
-//       setError(null);
-//     } catch (err) {
-//       setError(err.message || "Failed to delete file");
-//     }
-//   };
+  //   const handleDeleteImage = async (fileId) => {
+  //     try {
+  //       await onDeleteImage(fileId);
+  //       setError(null);
+  //     } catch (err) {
+  //       setError(err.message || "Failed to delete file");
+  //     }
+  //   };
 
   //newly added for alert window
   const handleDeleteAccount = () => {
