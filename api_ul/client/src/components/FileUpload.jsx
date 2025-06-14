@@ -1,6 +1,6 @@
 // src/components/FileUpload.jsx
 import axios from "axios";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import FileUploadProgress from "./FileUploadProgress";
 import Lottie from "lottie-react";
 import uploadAnimation from "../assets/upload-animation.json";
@@ -12,6 +12,32 @@ const FileUpload = ({ onUpload }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [adulterationLevel, setAdulterationLevel] = useState(null); // New state for adulteration level
   const [error, setError] = useState(null); // Added for error display
+  const audioRef = useRef(null);
+
+  //AUDIO HOOKS
+
+  // ADD THIS useEffect: Initialize the audio object
+  useEffect(() => {
+    // Make sure the path to your sound file is correct
+    audioRef.current = new Audio("/sounds/sound1.mp3"); // <--- IMPORTANT: Update this path to your sound file
+  }, []); // The empty dependency array ensures this runs only once on mount
+
+  useEffect(() => {
+    console.log("Adulteration level changed:", adulterationLevel); // ADD THIS LINE
+    if (
+      adulterationLevel !== null &&
+      typeof adulterationLevel === "number" &&
+      audioRef.current
+    ) {
+      audioRef.current.play().catch((error) => {
+        console.warn("Could not play sound automatically:", error);
+        // You can also console.error the actual error object here for more details
+        // console.error("Play error details:", error);
+      });
+    }
+  }, [adulterationLevel]);
+
+
 
   const handleDrag = useCallback((e) => {
     e.preventDefault();
