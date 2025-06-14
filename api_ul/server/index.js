@@ -14,9 +14,11 @@ const { connectDB } = require("./lib/db");
 // Load environment variables from .env file
 dotenv.config();
 
-const PORT= process.env.PORT || 5000;
+// No need for PORT constant or app.listen when using Netlify Functions.
+// const PORT= process.env.PORT || 5000;
 
 // Connect to the database
+connectDB();
 
 // Security middleware
 app.use(helmet());
