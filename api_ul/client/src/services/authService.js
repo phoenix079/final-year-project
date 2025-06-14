@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/auth";
-const FILES_API_URL = "http://localhost:5000/api/files";
+const API_URL = "/api/auth";
+const FILES_API_URL = "/api/files";
 
 // Set up axios defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";
