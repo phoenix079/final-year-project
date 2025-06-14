@@ -1,18 +1,10 @@
 [build]
-  # Base directory: Where your client's package.json is, relative to repo root
   base = "api_ul/client/"
-
-  # Build command: Run from within the 'base' directory
   command = "npm run build"
-
-  # Publish directory: Where the final built files are, relative to repo root
-  publish = "api_ul/client/dist/"
-
-  # Functions directory: Where your functions are, relative to repo root (if applicable)
-  functions = "api_ul/client/netlify/functions" # Adjust or remove if not using functions
+  publish = "dist/" 
+  functions = "api_ul/client/netlify/functions" # Keep this if you have functions
 
 [[redirects]]
-  # Fallback for SPAs: If a path doesn't exist, serve index.html
   from = "/*"
   to = "/index.html"
   status = 200
