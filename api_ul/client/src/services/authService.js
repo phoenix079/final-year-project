@@ -1,7 +1,7 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/auth";
-const FILES_API_URL = "http://localhost:5000/api/files";
+import {axiosInstance} from "../lib/axios";
+// const API_URL = "http://localhost:5000/api/auth";
+// const FILES_API_URL = "http://localhost:5000/api/files";
 
 // Set up axios defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -9,7 +9,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 //axios for login
 export const login = async (credentials) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, credentials);
+    const response = await axiosInstance.post("/login", credentials);
     const data = response.data;
     localStorage.setItem("user", JSON.stringify(data));
     return data;
@@ -20,7 +20,7 @@ export const login = async (credentials) => {
 
 export const register = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, userData);
+    const response = await axiosInstance.post("/register", userData);
     const data = response.data;
     localStorage.setItem("user", JSON.stringify(data));
     return data;
@@ -55,7 +55,7 @@ export const deleteAccount = async () => {
     if (!user?.token) {
       throw new Error("No user token found");
     }
-    await axios.delete(`${API_URL}/delete`, {
+    await axiosInstance.delete("/delete", {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     localStorage.removeItem("user");
@@ -74,7 +74,7 @@ export const fetchUserFiles = async () => {
     if (!user?.token) {
       throw new Error("No user token found");
     }
-    const response = await axios.get(FILES_API_URL, {
+    const response = await axiosInstance.get("/files", {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     return response.data;

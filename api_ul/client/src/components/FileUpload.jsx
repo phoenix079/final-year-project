@@ -4,6 +4,7 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 import FileUploadProgress from "./FileUploadProgress";
 import Lottie from "lottie-react";
 import uploadAnimation from "../assets/upload-animation.json";
+import {axiosInstance} from "../lib/axios"; // Import the axios instance
 
 const FileUpload = ({ onUpload }) => {
   const [dragActive, setDragActive] = useState(false);
@@ -132,8 +133,8 @@ const FileUpload = ({ onUpload }) => {
     formData.append("file", file); // Single file with key "file"
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/upload",
+      const response = await axiosInstance.post(
+        "/upload",
         formData,
         {
           headers: {
@@ -159,8 +160,8 @@ const FileUpload = ({ onUpload }) => {
       const uploadedFile = response.data.file;
       onUpload([uploadedFile]);
       try {
-        const predictionRes = await axios.get(
-          `http://localhost:5000/api/predict/${uploadedFile._id}`,
+        const predictionRes = await axiosInstance.get(
+          `/predict/${uploadedFile._id}`,
           {
             headers: {
               Authorization: `Bearer ${

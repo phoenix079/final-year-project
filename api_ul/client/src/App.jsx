@@ -20,6 +20,7 @@ import {
   deleteAccount,
 } from "./services/authService";
 import { ThemeContext } from "./ThemeContext";
+import { axiosInstance } from "./lib/axios"; // Import the axios instance
 
 function App() {
   const [user, setUser] = useState(null);
@@ -88,12 +89,16 @@ function App() {
 
       if (user?.token && !isActive) {
         console.log("Triggering logout on tab close");
+
+        const logoutUrl = `${axiosInstance.defaults.baseURL}/auth/logout`;
+
         navigator.sendBeacon(
-          "http://localhost:5000/api/auth/logout",
+          logoutUrl,
           new Blob([], { type: "application/json" })
         );
+
         localStorage.removeItem("user");
-        sessionStorage.clear(); // Ensure sessionStorage is cleared
+        sessionStorage.clear();
       }
     };
 
@@ -133,8 +138,8 @@ function App() {
         return;
       }
 
-      await axios.post(
-        "http://localhost:5000/api/auth/logout",
+      await axiosInstance.post(
+        "/auth/logout",
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -172,7 +177,7 @@ function App() {
   const handleDeleteImage = async (fileId) => {
     try {
       console.log("Attempting to delete file:", fileId); // Debug
-      await axios.delete(`http://localhost:5000/api/files/${fileId}`, {
+      await axiosInstance.delete(`/files/${fileId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
