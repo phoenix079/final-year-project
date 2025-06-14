@@ -3,3 +3,8 @@
   command = "npm run build"
   publish = "api_ul/client/dist/" # This is the crucial line for the publish directory
   functions = "api_ul/client/netlify/functions" # Include this if you plan to use Netlify Functions there
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
