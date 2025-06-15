@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "https://final-year-project-p013.onrender.com/api/auth";
-const FILES_API_URL = "https://final-year-project-p013.onrender.com/api/files";
+const API_URL = `${import.meta.env.VITE_APP_API_URL}/api/auth`;
+const FILES_API_URL = `${import.meta.env.VITE_APP_API_URL}/api/files`;
 
 // Set up axios defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";

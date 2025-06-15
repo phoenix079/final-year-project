@@ -134,7 +134,7 @@ function App() {
       }
 
       await axios.post(
-        "https://final-year-project-p013.onrender.com/api/auth/logout",
+        `${import.meta.env.VITE_APP_API_URL}/api/auth/logout`,
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -173,7 +173,7 @@ function App() {
     try {
       console.log("Attempting to delete file:", fileId); // Debug
       await axios.delete(
-        `https://final-year-project-p013.onrender.com/api/files/${fileId}`,
+        `${import.meta.env.VITE_APP_API_URL}/api/files/${fileId}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
