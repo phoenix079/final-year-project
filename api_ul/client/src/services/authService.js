@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/auth";
-const FILES_API_URL = "http://localhost:5000/api/files";
+const API_URL = "https://final-year-project-p013.onrender.com/api/auth";
+const FILES_API_URL = "https://final-year-project-p013.onrender.com/api/files";
 
 // Set up axios defaults
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -97,7 +97,7 @@ axios.interceptors.request.use(
   }
 );
 
-// const API_URL = "http://localhost:5000/api/auth";
+// const API_URL = "https://final-year-project-p013.onrender.com/api/auth";
 
 // export const login = async (credentials) => {
 //   const response = await fetch(`${API_URL}/login`, {

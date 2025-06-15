@@ -67,9 +67,8 @@ const errorHandler = (err, req, res, next) => {
 };
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
-  connectDB();
 });
 
 module.exports = app;
