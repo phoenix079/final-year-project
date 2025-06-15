@@ -117,7 +117,6 @@ const FileUpload = ({ onUpload }) => {
     // When the file is removed, the drag and drop area will reappear due to conditional rendering
   };
 
-  
   //newly added axios
   const uploadFiles = async () => {
     if (selectedFiles.length === 0) {
@@ -134,7 +133,7 @@ const FileUpload = ({ onUpload }) => {
 
     try {
       const response = await axios.post(
-        "https://final-year-project-p013.onrender.com/api/upload",
+        "http://localhost:5000/api/upload",
         formData,
         {
           headers: {
@@ -161,7 +160,7 @@ const FileUpload = ({ onUpload }) => {
       onUpload([uploadedFile]);
       try {
         const predictionRes = await axios.get(
-          `https://final-year-project-p013.onrender.com/api/predict/${uploadedFile._id}`,
+          `http://localhost:5000/api/predict/${uploadedFile._id}`,
           {
             headers: {
               Authorization: `Bearer ${

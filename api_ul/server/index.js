@@ -10,6 +10,7 @@ const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const app = express();
 const { connectDB } = require("./lib/db");
+const { error } = require("console");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -67,8 +68,14 @@ const errorHandler = (err, req, res, next) => {
 };
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await connectDB();
+    console.log(`Server running on port ${PORT}`);
+  } catch (error) {
+    console.error(error);
+    process.exit(0);
+  }
 });
 
 module.exports = app;

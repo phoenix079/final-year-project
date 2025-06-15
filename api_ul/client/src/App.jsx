@@ -89,7 +89,7 @@ function App() {
       if (user?.token && !isActive) {
         console.log("Triggering logout on tab close");
         navigator.sendBeacon(
-          "https://final-year-project-p013.onrender.com/api/auth/logout",
+          "http://localhost:5000/api/auth/logout",
           new Blob([], { type: "application/json" })
         );
         localStorage.removeItem("user");
@@ -134,7 +134,7 @@ function App() {
       }
 
       await axios.post(
-        "https://final-year-project-p013.onrender.com/api/auth/logout",
+        "http://localhost:5000/api/auth/logout",
         {},
         {
           headers: { Authorization: `Bearer ${user.token}` },
@@ -172,14 +172,11 @@ function App() {
   const handleDeleteImage = async (fileId) => {
     try {
       console.log("Attempting to delete file:", fileId); // Debug
-      await axios.delete(
-        `https://final-year-project-p013.onrender.com/api/files/${fileId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      await axios.delete(`http://localhost:5000/api/files/${fileId}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       setFiles((prev) => prev.filter((file) => file._id !== fileId));
       console.log("File deleted:", fileId);
       setError(null);
@@ -225,7 +222,7 @@ function App() {
   //this is the new handler for syncing the delete from the server
   // const handleRemove = async (fileId) => {
   //   try {
-  //     await axios.delete(`https://final-year-project-p013.onrender.com/api/files/${fileId}`, {
+  //     await axios.delete(`http://localhost:5000/api/files/${fileId}`, {
   //       headers: {
   //         Authorization: `Bearer ${user.token}`,
   //       },
@@ -241,7 +238,7 @@ function App() {
   //   if (user) {
   //     const fetchFiles = async () => {
   //       try {
-  //         const response = await axios.get("https://final-year-project-p013.onrender.com/api/files", {
+  //         const response = await axios.get("http://localhost:5000/api/files", {
   //           headers: {
   //             Authorization: `Bearer ${user.token}`,
   //           },
