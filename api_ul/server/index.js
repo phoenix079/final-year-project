@@ -33,7 +33,11 @@ app.use(limiter);
 app.use(morgan("dev"));
 
 // Enable CORS
-app.use(cors());
+app.use(cors(
+  {
+    origin: "*"
+  }
+));
 
 // Body parser
 app.use(express.json());
