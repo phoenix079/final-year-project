@@ -133,7 +133,7 @@ const FileUpload = ({ onUpload }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/upload",
+        "https://final-year-project-p013.onrender.com/api/upload",
         formData,
         {
           headers: {
@@ -160,7 +160,7 @@ const FileUpload = ({ onUpload }) => {
       onUpload([uploadedFile]);
       try {
         const predictionRes = await axios.get(
-          `http://localhost:5000/api/predict/${uploadedFile._id}`,
+          `https://final-year-project-p013.onrender.com/api/predict/${uploadedFile._id}`,
           {
             headers: {
               Authorization: `Bearer ${
