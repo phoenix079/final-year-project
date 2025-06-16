@@ -294,7 +294,7 @@ const FileUpload = ({ onUpload }) => {
       )}
       {selectedFiles.length > 0 && adulterationLevel === null && (
         <div className="selected-files">
-          <h4>Selected Files ({selectedFiles.length})</h4>
+          <h4>Selected File</h4>
           <div className="file-list">
             {selectedFiles.map((file, index) => (
               <div key={index} className="file-item-display">
@@ -342,7 +342,7 @@ const FileUpload = ({ onUpload }) => {
             disabled={isUploading || selectedFiles.length === 0}
             className="upload-button"
           >
-            {isUploading ? "Uploading..." : "Upload Files"}
+            {isUploading ? "Calculating..." : "Upload File"}
           </button>
         </div>
       )}
