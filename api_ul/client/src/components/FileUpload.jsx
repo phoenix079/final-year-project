@@ -17,7 +17,7 @@ const FileUpload = ({ onUpload }) => {
   const adulterationSoundMap = {
     0: "/sounds/adulteration_0.mp3",
     10: "/sounds/adulteration_10.mp3",
-    20: "/sounds/adulteration_20.mp3",
+    20: "/sounds/adulteration_20.m4a",
     30: "/sounds/adulteration_30.mp3",
     40: "/sounds/adulteration_40.mp3",
     50: "/sounds/adulteration_50.mp3",
