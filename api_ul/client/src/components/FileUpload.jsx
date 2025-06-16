@@ -14,37 +14,37 @@ const FileUpload = ({ onUpload }) => {
 
   //AUDIO HOOKS
 
-  const adulterationSoundMap = {
-    0: "/sounds/adulteration_0.mp3",
-    10: "/sounds/adulteration_10.mp3",
-    20: "/sounds/adulteration_20.m4a",
-    30: "/sounds/adulteration_30.mp3",
-    40: "/sounds/adulteration_40.mp3",
-    50: "/sounds/adulteration_50.mp3",
-    100: "/sounds/adulteration_100.mp3",
-    default: "/sounds/default.mp3", // Fallback sound
-  };
+  // const adulterationSoundMap = {
+  //   0: "/sounds/adulteration_0.mp3",
+  //   10: "/sounds/adulteration_10.mp3",
+  //   20: "/sounds/adulteration_20.m4a",
+  //   30: "/sounds/adulteration_30.mp3",
+  //   40: "/sounds/adulteration_40.mp3",
+  //   50: "/sounds/adulteration_50.mp3",
+  //   100: "/sounds/adulteration_100.mp3",
+  //   default: "/sounds/default.mp3", // Fallback sound
+  // };
 
-  useEffect(() => {
-    console.log("Adulteration level changed:", adulterationLevel);
-    if (adulterationLevel !== null && typeof adulterationLevel === "number") {
-      const soundPath = adulterationSoundMap[adulterationLevel] || adulterationSoundMap.default;
+  // useEffect(() => {
+  //   console.log("Adulteration level changed:", adulterationLevel);
+  //   if (adulterationLevel !== null && typeof adulterationLevel === "number") {
+  //     const soundPath = adulterationSoundMap[adulterationLevel] || adulterationSoundMap.default;
 
-      if (soundPath) {
-        const audio = new Audio(soundPath); // Create a new Audio object
-        audio.play().catch((playError) => {
-          console.warn(
-            `Could not play sound for level ${adulterationLevel}:`,
-            playError
-          );
-        });
-      } else {
-        console.warn(
-          `No sound defined for adulteration level: ${adulterationLevel}`
-        );
-      }
-    }
-  }, [adulterationLevel]);
+  //     if (soundPath) {
+  //       const audio = new Audio(soundPath); // Create a new Audio object
+  //       audio.play().catch((playError) => {
+  //         console.warn(
+  //           `Could not play sound for level ${adulterationLevel}:`,
+  //           playError
+  //         );
+  //       });
+  //     } else {
+  //       console.warn(
+  //         `No sound defined for adulteration level: ${adulterationLevel}`
+  //       );
+  //     }
+  //   }
+  // }, [adulterationLevel]);
 
 
 

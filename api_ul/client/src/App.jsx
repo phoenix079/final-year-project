@@ -73,6 +73,8 @@ function App() {
     navigate("/"); // Redirect to home after registration
   };
 
+
+
   // Handle tab closure vs reload ***************(NOT YET WORKING)
   useEffect(() => {
     // Generate a unique tab ID and store in sessionStorage
@@ -117,6 +119,9 @@ function App() {
       window.removeEventListener("load", handleLoad);
     };
   }, []);
+
+
+  
 
   //NEW LOGOUT HOOK
   const handleLogout = async () => {

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authService";
 import "./Auth.css";
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin }) => {   //Defines a functional component named Login.
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
