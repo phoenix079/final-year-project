@@ -16,7 +16,7 @@ const { error } = require("console");
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-
+app.set("trust proxy", 1);
 // Connect to the database
 
 // Security middleware
@@ -33,11 +33,25 @@ app.use(limiter);
 app.use(morgan("dev"));
 
 // Enable CORS
-app.use(cors(
-  {
-    origin: "*"
-  }
-));
+const allowedOrigins = [
+  "https://final-year-project-p013.onrender.com",
+  "http://localhost:5000",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 // Body parser
 app.use(express.json());
