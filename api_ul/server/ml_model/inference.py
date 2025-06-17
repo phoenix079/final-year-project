@@ -24,11 +24,13 @@ def extract_features(image):
 # Main entry
 def main():
     url = sys.argv[1]  # Get image URL as input
-    resp = urlopen(url)
-    image_data = np.asarray(bytearray(resp.read()), dtype="uint8")
-    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
+    resp = urlopen(url) #This line attempts to open the URL provided by the user.
+    image_data = np.asarray(bytearray(resp.read()), dtype="uint8") # This is where the image content is read and prepared for OpenCV.
+    image = cv2.imdecode(image_data, cv2.IMREAD_COLOR) #This is the OpenCV part
 
-    model = joblib.load("ml_model/mlp_color_texture.pkl")
+    model = joblib.load("ml_model/mlp_color_texture.pkl") #The filename. .pkl is a common extension for files saved with pickle or joblib. 
+    #mlp likely stands for Multi-Layer Perceptron (a type of neural network), 
+    # and color_texture suggests that the model was trained using features related to color and texture from images.
     features = extract_features(image).reshape(1, -1)
     prediction = model.predict(features)
     proba = model.predict_proba(features).max()

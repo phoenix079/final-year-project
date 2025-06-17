@@ -38,7 +38,6 @@ const registerUser = async (req, res) => {
     if (user) {
       // Generate JWT token
       const token = generateToken(user._id);
-
       res.status(201).json({
         _id: user._id,
         fullName: user.fullName,
@@ -49,10 +48,13 @@ const registerUser = async (req, res) => {
       res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
+    //Error Handling:
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
 
 // @desc Authenticate user
 // @route POST /api/auth/login
@@ -94,9 +96,12 @@ const loginUser = async (req, res) => {
   }
 };
 
+
+
 // @desc Get logged-in user info
 // @route GET /api/auth/me
 // @access Private
+// backend controller designed to retrieve the details of the currently authenticated user.
 const getMe = async (req, res) => {
   try {
     // req.user should be set by protect middleware
@@ -116,6 +121,8 @@ const getMe = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
 
 // @desc Delete user account and associated files
 // @route.DELETE /api/auth/delete

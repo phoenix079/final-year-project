@@ -11,13 +11,15 @@ export const login = async (credentials) => {
   try {
     const response = await axios.post(`${API_URL}/login`, credentials);
     const data = response.data;
-    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data)); //Stores the data (user information) in the browser's localStorage
+    //JSON.stringify(data) converts the JavaScript object into a JSON string, as localStorage can only store strings.
     return data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Login failed");
+    throw new Error(error.response?.data?.message || "Login failed"); //error.response?.data?.message attempts to extract a more specific error message from the API response if available (e.g., "Invalid credentials").
   }
 };
 
+//axios for register
 export const register = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
@@ -96,46 +98,7 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-// const API_URL = "https://final-year-project-p013.onrender.com/api/auth";
-
-// export const login = async (credentials) => {
-//   const response = await fetch(`${API_URL}/login`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(credentials),
-//   });
-//   const data = await response.json();
-//   if (!response.ok) {
-//     throw new Error(data.message || "Login failed");
-//   }
-//   localStorage.setItem("user", JSON.stringify(data));
-//   return data;
-// };
-
-// export const register = async (userData) => {
-//   const response = await fetch(`${API_URL}/register`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(userData),
-//   });
-//   const data = await response.json();
-//   if (!response.ok) {
-//     throw new Error(data.message || "Registration failed");
-//   }
-//   localStorage.setItem("user", JSON.stringify(data));
-//   return data;
-// };
-
-// export const logout = () => {
-//   localStorage.removeItem("user");
-// };
-
-// export const getCurrentUser = () => {
-//   const user = localStorage.getItem("user");
-//   return user ? JSON.parse(user) : null;
-// };
+//this interceptor automates the process of attaching the JWT (JSON Web Token) to every outgoing Axios request. 
+// This is a fundamental pattern for authenticated API calls in single-page applications. 
+// Instead of manually adding the Authorization header to each request, the interceptor does it automatically,
+// ensuring that all authenticated requests include the necessary token for your backend to verify the user's identity.

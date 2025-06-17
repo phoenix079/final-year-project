@@ -24,7 +24,7 @@ app.use(helmet());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000, // sets the time window for which requests are counted: 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
@@ -35,7 +35,7 @@ app.use(morgan("dev"));
 // Enable CORS
 app.use(
   cors({
-    origin: "*",
+    origin: "*", //tells the server to allow requests from any origin (domain).
   })
 );
 

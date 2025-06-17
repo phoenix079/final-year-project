@@ -5,17 +5,14 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { ThemeContext } from "../../ThemeContext.jsx";
 
 const Navbar = ({ user, onLogout, onToggleProfile }) => {
-  // const navigate = useNavigate();
-  // const isLoginPage = location.pathname === "/login";
-  // const isRegisterPage = location.pathname === "/register";
 
   const { theme, toggleTheme } = useContext(ThemeContext);
   const location = useLocation();
   const [isFeaturesDropdownOpen, setIsFeaturesDropdownOpen] = useState(false); // New state for the features dropdown
-  const dropdownRef = useRef(null); // Ref for the dropdown container
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const mobileMenuRef = useRef(null); // ADD THIS: Ref for the mobile menu links container
-  const hamburgerButtonRef = useRef(null); // ADD THIS: Ref for the hamburger icon button itself
+  const dropdownRef = useRef(null); // Ref for the dropdown container
+  const mobileMenuRef = useRef(null); // Ref for the mobile menu links container
+  const hamburgerButtonRef = useRef(null); // Ref for the hamburger icon button itself
 
   // Combined handleClickOutside for both features dropdown and mobile menu (KHUB KHANKI JINIS)
   useEffect(() => {
@@ -23,36 +20,35 @@ const Navbar = ({ user, onLogout, onToggleProfile }) => {
       // Close features dropdown if clicked outside its area (navbar-left-section)
       // and not on the hamburger button (to prevent closing when opening mobile menu)
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        hamburgerButtonRef.current &&
-        !hamburgerButtonRef.current.contains(event.target)
+        dropdownRef.current && // Ensure the dropdown element exists
+        !dropdownRef.current.contains(event.target) && // Click was outside the dropdown itself
+        hamburgerButtonRef.current && // Ensure hamburger button exists
+        !hamburgerButtonRef.current.contains(event.target) // Click was NOT on the hamburger button
       ) {
         setIsFeaturesDropdownOpen(false);
       }
-
       // Close mobile menu if clicked outside its area
       // and not on the hamburger button (to prevent closing the menu it just opened)
       // and not on the features dropdown button (to prevent closing when opening features dropdown)
       if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target) &&
-        hamburgerButtonRef.current &&
-        !hamburgerButtonRef.current.contains(event.target) &&
-        dropdownRef.current && // This is the .navbar-left-section, containing the features dropdown toggle
-        !dropdownRef.current.contains(event.target)
+        mobileMenuRef.current && // Ensure the mobile menu element exists
+        !mobileMenuRef.current.contains(event.target) && // Click was outside the mobile menu itself
+        hamburgerButtonRef.current && // Ensure hamburger button exists
+        !hamburgerButtonRef.current.contains(event.target) && // Click was NOT on the hamburger button
+        dropdownRef.current && // Ensure the features dropdown's containing element exists
+        !dropdownRef.current.contains(event.target) // Click was NOT on the features dropdown button/area
       ) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside); //This line registers the handleClickOutside function to be called whenever a mousedown event (when a mouse button is pressed down) occurs
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside); // This is the cleanup function for useEffect
     };
-  }, [isFeaturesDropdownOpen, isMobileMenuOpen]); // Add states to dependency array if you want it to re-run when they change. Or keep empty [] if you want it to run once and rely on refs. For outside click, an empty array is usually sufficient as the refs are stable.
+  }, [isFeaturesDropdownOpen, isMobileMenuOpen]); 
 
-  // New state to manage the mobile menu's open/closed state
+
 
   // Toggle dropdown visibility  (BOTH DROPDOWN AND HAMBURGER MERGED)
   const toggleFeaturesDropdown = () => {
@@ -61,12 +57,15 @@ const Navbar = ({ user, onLogout, onToggleProfile }) => {
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
 
-  // ADD THIS: Toggle mobile menu visibility  (BOTH DROPDOWN AND HAMBURGER MERGED)
+  // Toggle mobile menu visibility  (BOTH DROPDOWN AND HAMBURGER MERGED)
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
     // When opening mobile menu, close features dropdown if it's open
     if (isFeaturesDropdownOpen) setIsFeaturesDropdownOpen(false);
   };
+
+
+
 
   // SVG for profile icon
   const profileSvg = (
@@ -85,10 +84,8 @@ const Navbar = ({ user, onLogout, onToggleProfile }) => {
     </svg>
   );
 
-  // const handleLogout = () => {
-  //   onLogout();
-  //   navigate("/login");
-  // };
+
+
 
   return (
     <nav className="navbar">

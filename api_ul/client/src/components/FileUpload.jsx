@@ -128,6 +128,8 @@ const FileUpload = ({ onUpload }) => {
     // When the file is removed, the drag and drop area will reappear due to conditional rendering
   };
 
+
+  
   //newly added axios
   const uploadFiles = async () => {
     if (selectedFiles.length === 0) {

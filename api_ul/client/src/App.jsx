@@ -43,6 +43,7 @@ function App() {
     }
   };
 
+  //this useEffect block acts as an initial authentication gate: it checks if a user is already logged in
   useEffect(() => {
     console.log("Checking for current user");
     const currentUser = getCurrentUser();
@@ -72,8 +73,6 @@ function App() {
     fetchFiles();
     navigate("/"); // Redirect to home after registration
   };
-
-
 
   // Handle tab closure vs reload ***************(NOT YET WORKING)
   useEffect(() => {
@@ -121,9 +120,8 @@ function App() {
   }, []);
 
 
-  
 
-  //NEW LOGOUT HOOK
+  //NEW LOGOUT FUNCTION
   const handleLogout = async () => {
     console.log("Attempting logout");
     try {
@@ -167,13 +165,18 @@ function App() {
     }
   };
 
-  //Fileupload handlers
+
+
+
+  //The handleUpload function is designed to incrementally add newly selected files to a list of files managed by the component's state
   const handleUpload = (uploadedFiles) => {
-    setFiles((prev) => [...prev, ...uploadedFiles]); //setFiles([...files, ...uploadedFiles]);   // again,suggested: uploadedFiles
+    setFiles((prev) => [...prev, ...uploadedFiles]); 
     console.log("Files ready for upload:", uploadedFiles);
   };
 
-  //newly(2) added callback
+
+
+  //handle to delete images from a specific user profile
   const handleDeleteImage = async (fileId) => {
     try {
       console.log("Attempting to delete file:", fileId); // Debug
@@ -199,6 +202,8 @@ function App() {
       throw new Error(errorMessage); // Re-throw for ProfileComponent to catch
     }
   };
+
+
 
   //deleteaccount handler
   const handleDeleteAccount = async () => {

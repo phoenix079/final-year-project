@@ -8,7 +8,7 @@ const uploadFile = async (req, res) => {
     console.log("Uploaded file object:", req.file); // Debug
 
     if (!req.user) {
-      return res.status(401).json({ message: "User not authenticated" });
+      return res.status(401).json({ message: "User not authenticated" }); //If no user is authenticated, it returns a 401 Unauthorized.
     }
 
     if (!req.file || !req.file.path) {
@@ -22,8 +22,11 @@ const uploadFile = async (req, res) => {
       req.file.filename || req.file.path.split("/").pop().split(".")[0];
 
     //new added base64
+    //This section is designed to generate a Base64 string for uploaded images. 
+    // This is useful for displaying image previews on the frontend without needing to make another network request, 
+    // especially for small images.
     let base64 = null;
-    if (mimetype.startsWith("image/")) {
+    if (mimetype.startsWith("image/")) { //Only attempts Base64 conversion if the uploaded file is an image.
       const filePath = cloudinaryUrl; // Local path if using multer temp storage
       if (filePath.startsWith("http")) {
         // If Cloudinary URL, fetch the image
@@ -78,6 +81,8 @@ const uploadFile = async (req, res) => {
   }
 };
 
+
+
 // @route GET /api/files
 // @desc Get all uploaded files (for user/admin)
 // @access Private (or public if needed)
@@ -122,9 +127,13 @@ const getAllFiles = async (req, res) => {
   }
 };
 
+
+
 // @desc Get single file         NEWLY ADDED
 // @route GET /api/files/:id
 // @access Private
+// backend controller designed to retrieve a specific file's metadata and,
+// for images, its Base64 representation, for an authenticated user.
 const getFile = async (req, res) => {
   try {
     const file = await File.findById(req.params.id);
@@ -132,6 +141,8 @@ const getFile = async (req, res) => {
       return res.status(404).json({ message: "File not found" });
     }
     if (file.user.toString() !== req.user._id.toString()) {
+      //It compares the user ID associated with the retrieved file (from the database) 
+      // to the _id of the currently authenticated user (req.user._id).
       return res
         .status(403)
         .json({ message: "Not authorized to access this file" });
@@ -159,6 +170,8 @@ const getFile = async (req, res) => {
   }
 };
 
+
+
 // @desc Delete file
 // @route DELETE /api/files/:id
 // @access Private
@@ -181,6 +194,9 @@ const deleteFile = async (req, res) => {
         .status(403)
         .json({ message: "Not authorized to delete this file" });
     }
+
+
+
     // Delete from Cloudinary
     if (file.filename) {
       try {
